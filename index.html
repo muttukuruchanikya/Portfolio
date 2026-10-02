@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Muttukuru Chanikya — Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,500;9..144,600;9..144,700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink: #10241E;
+    --ink-2: #16332B;
+    --parchment: #F1ECDD;
+    --parchment-dim: #C9C2AC;
+    --brass: #C9A227;
+    --brass-bright: #E4C25C;
+    --teal: #4C7A74;
+    --line: rgba(241,236,221,0.14);
+    --radius: 2px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background: var(--ink);
+    color: var(--parchment);
+    font-family: 'IBM Plex Sans', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  ::selection{ background: var(--brass); color: var(--ink); }
+
+  .paper-texture{
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    background-image:
+      linear-gradient(rgba(241,236,221,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(241,236,221,0.025) 1px, transparent 1px);
+    background-size: 42px 42px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 90%);
+  }
+
+  header.nav{
+    position: fixed; top:0; left:0; right:0; z-index: 50;
+    display:flex; justify-content: space-between; align-items:center;
+    padding: 22px 6vw;
+    background: linear-gradient(to bottom, rgba(16,36,30,0.96), rgba(16,36,30,0.75));
+    backdrop-filter: blur(6px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-mark{
+    font-family:'IBM Plex Mono'; font-size: 13px; letter-spacing: 0.08em;
+    color: var(--brass-bright); text-transform: uppercase;
+  }
+  .nav-mark span{ color: var(--parchment-dim); }
+  nav.links{ display:flex; gap: 32px; }
+  nav.links a{
+    color: var(--parchment-dim); text-decoration:none; font-size: 13.5px;
+    letter-spacing: 0.04em; text-transform: uppercase; font-family:'IBM Plex Mono';
+    transition: color 0.25s ease;
+    position:relative;
+  }
+  nav.links a:hover, nav.links a:focus-visible{ color: var(--brass-bright); }
+  nav.links a::after{
+    content:''; position:absolute; left:0; bottom:-6px; width:0; height:1px;
+    background: var(--brass-bright); transition: width 0.25s ease;
+  }
+  nav.links a:hover::after{ width:100%; }
+  .nav-toggle{ display:none; }
+
+  section{ position: relative; z-index: 1; padding: 140px 6vw 90px; max-width: 1180px; margin: 0 auto; }
+
+  /* HERO */
+  .hero{ padding-top: 190px; min-height: 92vh; display:flex; flex-direction:column; justify-content:center; }
+  .eyebrow{
+    font-family:'IBM Plex Mono'; font-size: 13px; color: var(--teal);
+    text-transform: uppercase; letter-spacing: 0.16em; margin-bottom: 22px;
+    display:flex; align-items:center; gap: 12px;
+  }
+  .eyebrow .dot{ width:7px; height:7px; border-radius:50%; background: var(--brass-bright); box-shadow: 0 0 10px var(--brass-bright); animation: pulse 2.2s infinite ease-in-out; }
+  @keyframes pulse{ 0%,100%{opacity:1;} 50%{opacity:0.35;} }
+  h1.name{
+    font-family:'Fraunces', serif; font-weight: 600; font-size: clamp(48px, 8vw, 108px);
+    line-height: 0.98; letter-spacing: -0.01em; max-width: 14ch;
+  }
+  .hero-sub{
+    margin-top: 26px; max-width: 62ch; font-size: 18px; color: var(--parchment-dim);
+    font-weight: 400;
+  }
+  .hero-sub strong{ color: var(--parchment); font-weight: 500; }
+  .hero-actions{ margin-top: 40px; display:flex; gap:16px; flex-wrap: wrap; align-items:center; }
+  .btn{
+    font-family:'IBM Plex Mono'; font-size: 13.5px; letter-spacing: 0.03em;
+    padding: 13px 24px; border-radius: var(--radius); text-decoration:none;
+    display:inline-flex; align-items:center; gap:10px; transition: all 0.25s ease;
+  }
+  .btn.primary{ background: var(--brass-bright); color: var(--ink); font-weight:600; }
+  .btn.primary:hover{ background: var(--parchment); transform: translateY(-2px); }
+  .btn.ghost{ border: 1px solid var(--line); color: var(--parchment); }
+  .btn.ghost:hover{ border-color: var(--brass-bright); color: var(--brass-bright); }
+
+  .hero-ticker{
+    margin-top: 70px; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);
+    padding: 14px 0; overflow: hidden; white-space: nowrap;
+  }
+  .hero-ticker .track{ display:inline-block; animation: scroll-left 26s linear infinite; }
+  .hero-ticker span{
+    font-family:'IBM Plex Mono'; font-size: 13px; color: var(--parchment-dim);
+    margin-right: 40px; text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .hero-ticker span::before{ content:'◆'; color: var(--brass); margin-right: 40px; font-size:9px; vertical-align: middle;}
+  @keyframes scroll-left{ from{ transform: translateX(0); } to{ transform: translateX(-50%); } }
+
+  /* SECTION HEADERS */
+  .sec-head{ display:flex; align-items: baseline; gap: 18px; margin-bottom: 48px; }
+  .sec-num{ font-family:'IBM Plex Mono'; font-size: 13px; color: var(--brass); }
+  .sec-title{ font-family:'Fraunces', serif; font-size: clamp(28px,3.4vw,42px); font-weight:600; }
+  .sec-rule{ flex:1; height:1px; background: var(--line); }
+
+  /* ABOUT */
+  .about-grid{ display:grid; grid-template-columns: 1.3fr 1fr; gap: 60px; align-items: start; }
+  .about-text p{ font-size: 17px; color: var(--parchment-dim); max-width: 58ch; }
+  .about-text p strong{ color: var(--parchment); font-weight:500; }
+  .field-card{
+    border: 1px solid var(--line); padding: 26px; border-radius: var(--radius);
+    background: var(--ink-2);
+  }
+  .field-card h4{ font-family:'IBM Plex Mono'; font-size: 12px; text-transform:uppercase; letter-spacing:0.1em; color: var(--teal); margin-bottom: 14px;}
+  .field-card ul{ list-style:none; }
+  .field-card li{ font-size:14.5px; color: var(--parchment-dim); padding: 7px 0; border-bottom: 1px dashed var(--line); }
+  .field-card li:last-child{ border-bottom:none; }
+  .field-card li b{ color: var(--parchment); font-weight:500; }
+
+  /* SKILLS */
+  .skill-groups{ display:grid; grid-template-columns: repeat(auto-fit, minmax(230px,1fr)); gap: 28px; }
+  .skill-group h4{
+    font-family:'IBM Plex Mono'; font-size: 12px; color: var(--brass-bright);
+    text-transform:uppercase; letter-spacing:0.1em; margin-bottom: 16px;
+    padding-bottom: 10px; border-bottom: 1px solid var(--line);
+  }
+  .chip-row{ display:flex; flex-wrap: wrap; gap: 9px; }
+  .chip{
+    font-family:'IBM Plex Mono'; font-size: 12.5px; padding: 7px 13px;
+    border: 1px solid var(--line); border-radius: 999px; color: var(--parchment-dim);
+    transition: all 0.2s ease;
+  }
+  .chip:hover{ border-color: var(--brass-bright); color: var(--parchment); background: rgba(201,162,39,0.08); }
+
+  /* PROJECTS */
+  .project{
+    display:grid; grid-template-columns: 90px 1fr; gap: 30px;
+    padding: 40px 0; border-top: 1px solid var(--line);
+  }
+  .project:last-child{ border-bottom: 1px solid var(--line); }
+  .project-index{ font-family:'Fraunces', serif; font-size: 42px; color: var(--line); font-weight:600; }
+  .project h3{ font-family:'Fraunces', serif; font-size: 26px; font-weight:600; margin-bottom: 12px; }
+  .project p{ color: var(--parchment-dim); font-size: 15.5px; max-width: 68ch; margin-bottom: 18px;}
+  .tag-row{ display:flex; gap:8px; flex-wrap:wrap; }
+  .tag{
+    font-family:'IBM Plex Mono'; font-size: 11.5px; padding: 4px 10px;
+    background: var(--ink-2); color: var(--teal); border-radius: 3px;
+  }
+  .scan-vis{
+    margin-top: 20px; height: 64px; border: 1px solid var(--line); border-radius: var(--radius);
+    position: relative; overflow:hidden; background: repeating-linear-gradient(90deg, rgba(241,236,221,0.03) 0 1px, transparent 1px 24px);
+    display:flex; align-items:center; padding: 0 18px; gap: 14px;
+  }
+  .scan-vis span{ font-family:'IBM Plex Mono'; font-size:11px; color: var(--parchment-dim); text-transform:uppercase; letter-spacing:0.08em;}
+  .scan-line{
+    position:absolute; top:0; bottom:0; width: 2px; background: var(--brass-bright);
+    box-shadow: 0 0 12px var(--brass-bright); animation: sweep 3.4s ease-in-out infinite;
+  }
+  @keyframes sweep{ 0%,100%{ left:0%; opacity:0.9;} 50%{ left:97%; opacity:0.9;} 52%{opacity:0;} 100%{opacity:0.9;} }
+
+  /* EDUCATION — transcript */
+  .transcript{
+    border: 1px solid var(--line); background: var(--ink-2); border-radius: var(--radius);
+    padding: 6px; position: relative;
+  }
+  .transcript-inner{ border: 1px dashed var(--line); padding: 34px clamp(20px,4vw,44px); position:relative; }
+  .transcript-row{
+    display:grid; grid-template-columns: 1fr auto auto; gap: 18px; align-items: baseline;
+    padding: 18px 0; border-bottom: 1px dashed var(--line);
+  }
+  .transcript-row:last-child{ border-bottom:none; }
+  .t-name{ font-family:'Fraunces', serif; font-size: 19px; font-weight: 500; }
+  .t-sub{ font-family:'IBM Plex Sans'; font-size: 13px; color: var(--parchment-dim); display:block; margin-top:3px;}
+  .t-score{ font-family:'IBM Plex Mono'; font-size: 22px; color: var(--brass-bright); font-weight:500; text-align:right; }
+  .t-label{ font-family:'IBM Plex Mono'; font-size: 10.5px; color: var(--teal); text-transform:uppercase; letter-spacing:0.08em; text-align:right; }
+  .seal{
+    position:absolute; top: -26px; right: clamp(10px,4vw,44px);
+    width: 92px; height: 92px; border-radius: 50%;
+    border: 2px solid var(--brass-bright);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    background: var(--ink); transform: rotate(-8deg);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+  }
+  .seal::before{
+    content:''; position:absolute; inset: 6px; border: 1px dotted var(--brass);
+    border-radius: 50%;
+  }
+  .seal .num{ font-family:'Fraunces', serif; font-size: 22px; font-weight:700; color: var(--brass-bright); line-height:1;}
+  .seal .cap{ font-family:'IBM Plex Mono'; font-size: 8px; letter-spacing:0.08em; color: var(--parchment-dim); margin-top:4px; text-transform:uppercase;}
+
+  /* WHO I AM */
+  .whoami{ display:grid; grid-template-columns: 0.9fr 1.4fr; gap: 54px; align-items:start; }
+  .whoami-tag{
+    font-family:'Fraunces', serif; font-size: clamp(30px,4vw,44px); font-weight:600;
+    line-height: 1.08; position: sticky; top: 140px;
+  }
+  .whoami-tag em{ font-style: normal; color: var(--brass-bright); }
+  .whoami-text p{ font-size: 16.5px; color: var(--parchment-dim); margin-bottom: 20px; max-width: 62ch; }
+  .whoami-text p strong{ color: var(--parchment); font-weight: 500; }
+
+  /* GET IN TOUCH */
+  .touch-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); gap: 2px; background: var(--line); border: 1px solid var(--line); border-radius: var(--radius); overflow:hidden; }
+  .touch-row{ background: var(--ink); padding: 26px 28px; display:flex; align-items:center; gap: 18px; transition: background 0.25s ease; }
+  a.touch-row, .touch-row{ text-decoration:none; color: inherit; }
+  a.touch-row:hover{ background: var(--ink-2); }
+  .touch-icon{
+    flex-shrink:0; width: 44px; height:44px; border: 1px solid var(--line); border-radius: 50%;
+    display:flex; align-items:center; justify-content:center;
+    font-family:'IBM Plex Mono'; font-size: 13px; color: var(--brass-bright); letter-spacing:0.02em;
+  }
+  .touch-body{ min-width:0; }
+  .touch-label{ font-family:'IBM Plex Mono'; font-size: 10.5px; text-transform:uppercase; letter-spacing:0.1em; color: var(--teal); margin-bottom: 4px; }
+  .touch-value{ font-size: 15.5px; color: var(--parchment); white-space:nowrap; overflow:hidden; text-overflow: ellipsis; }
+
+  /* CERTS + LANG */
+  .split-two{ display:grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+  .list-card{ border:1px solid var(--line); padding: 28px; border-radius: var(--radius); }
+  .list-card h4{ font-family:'IBM Plex Mono'; font-size:12px; text-transform:uppercase; letter-spacing:0.1em; color:var(--brass-bright); margin-bottom:16px;}
+  .list-card .item{ display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px dashed var(--line); font-size:15px; }
+  .list-card .item:last-child{ border-bottom:none; }
+  .list-card .item span{ color: var(--parchment-dim); font-family:'IBM Plex Mono'; font-size:12.5px; }
+
+  /* FOOTER / CONTACT */
+  footer{
+    padding: 90px 6vw 60px; position:relative; z-index:1; border-top: 1px solid var(--line);
+    text-align:center;
+  }
+  footer .sec-title{ font-size: clamp(30px,5vw,58px); margin-bottom: 22px; }
+  .contact-row{ display:flex; justify-content:center; gap: 34px; flex-wrap:wrap; margin-top: 26px; }
+  .contact-row a{ color: var(--parchment-dim); text-decoration:none; font-family:'IBM Plex Mono'; font-size:14px; transition: color 0.2s;}
+  .contact-row a:hover{ color: var(--brass-bright); }
+  .foot-note{ margin-top: 60px; font-family:'IBM Plex Mono'; font-size: 11.5px; color: var(--parchment-dim); opacity:0.6; }
+
+  @media (max-width: 780px){
+    nav.links{ display:none; }
+    .about-grid{ grid-template-columns: 1fr; }
+    .whoami{ grid-template-columns: 1fr; }
+    .whoami-tag{ position: static; }
+    .split-two{ grid-template-columns: 1fr; }
+    .project{ grid-template-columns: 1fr; }
+    .project-index{ font-size: 24px; }
+    .seal{ position: static; transform: none; margin-bottom: 20px; }
+    .transcript-row{ grid-template-columns: 1fr; text-align:left; }
+    .t-score, .t-label{ text-align:left; }
+  }
+  @media (prefers-reduced-motion: reduce){
+    *{ animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="paper-texture"></div>
+
+<header class="nav">
+  <div class="nav-mark">MC <span>/ Portfolio</span></div>
+  <nav class="links">
+    <a href="#about">About</a>
+    <a href="#whoami">Who I Am</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#education">Education</a>
+    <a href="#contact">Get in Touch</a>
+  </nav>
+</header>
+
+<section class="hero" id="top">
+  <div class="eyebrow"><span class="dot"></span> B.Tech Data Science — Mohan Babu University · Tirupati, AP</div>
+  <h1 class="name">Muttukuru<br>Chanikya</h1>
+  <p class="hero-sub">A <strong>data science student</strong> who builds toward entry-level software roles — comfortable across <strong>Java</strong>, <strong>SQL</strong> and core <strong>data structures &amp; algorithms</strong>, with hands-on projects spanning applied AI and the web.</p>
+  <div class="hero-actions">
+    <a class="btn primary" href="#contact">Get in touch</a>
+    <a class="btn ghost" href="#projects">View projects</a>
+  </div>
+  <div class="hero-ticker">
+    <div class="track">
+      <span>Java</span><span>SQL / MySQL</span><span>Data Structures &amp; Algorithms</span><span>HTML · CSS · JavaScript</span><span>PHP</span><span>Bootstrap</span><span>OpenCV</span><span>Flask</span>
+      <span>Java</span><span>SQL / MySQL</span><span>Data Structures &amp; Algorithms</span><span>HTML · CSS · JavaScript</span><span>PHP</span><span>Bootstrap</span><span>OpenCV</span><span>Flask</span>
+    </div>
+  </div>
+</section>
+
+<section id="about">
+  <div class="sec-head"><span class="sec-num">01</span><h2 class="sec-title">Objective</h2><div class="sec-rule"></div></div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>Motivated <strong>B.Tech Data Science</strong> student with a foundation in Java, SQL, and data structures &amp; algorithms. Seeking an entry-level software development role to apply technical skills, solve real-world problems, and keep learning new technologies — the same curiosity that drove an AI surveillance build and a hand-coded job portal from the ground up.</p>
+    </div>
+    <div class="field-card">
+      <h4>Snapshot</h4>
+      <ul>
+        <li><b>Program</b><br>B.Tech, Data Science</li>
+        <li><b>Institution</b><br>Mohan Babu University</li>
+        <li><b>Location</b><br>Tirupati, Andhra Pradesh</li>
+        <li><b>Focus</b><br>Software development, entry-level</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="whoami">
+  <div class="sec-head"><span class="sec-num">02</span><h2 class="sec-title">Who I Am</h2><div class="sec-rule"></div></div>
+  <div class="whoami">
+    <div class="whoami-tag">Student of <em>data</em>, builder of <em>things.</em></div>
+    <div class="whoami-text">
+      <p>I'm a <strong>B.Tech Data Science</strong> student at <strong>Mohan Babu University</strong>, Tirupati, drawn to how software can solve real problems — from spotting suspicious activity on a camera feed to helping someone find their next job online.</p>
+      <p>I like working end-to-end: shaping how an interface feels, wiring up the logic behind it, and getting the database right underneath. Right now I'm building that range through <strong>Java</strong>, <strong>SQL</strong>, and <strong>data structures &amp; algorithms</strong>, while picking up web tools like PHP and Bootstrap along the way.</p>
+      <p>Outside of coursework, I care about clear communication and steady teamwork — the kind that turns a rough idea into something people can actually use.</p>
+    </div>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="sec-head"><span class="sec-num">03</span><h2 class="sec-title">Skills</h2><div class="sec-rule"></div></div>
+  <div class="skill-groups">
+    <div class="skill-group">
+      <h4>Programming</h4>
+      <div class="chip-row"><span class="chip">Java</span></div>
+    </div>
+    <div class="skill-group">
+      <h4>Web Technologies</h4>
+      <div class="chip-row">
+        <span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JavaScript (Basic)</span><span class="chip">PHP</span><span class="chip">Bootstrap</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <h4>Data Structures &amp; Algorithms</h4>
+      <div class="chip-row">
+        <span class="chip">Arrays</span><span class="chip">Strings</span><span class="chip">Sorting</span><span class="chip">Searching</span>
+      </div>
+    </div>
+    <div class="skill-group">
+      <h4>Databases</h4>
+      <div class="chip-row"><span class="chip">MySQL</span><span class="chip">SQL (Basics)</span></div>
+    </div>
+    <div class="skill-group">
+      <h4>Tools &amp; Platforms</h4>
+      <div class="chip-row"><span class="chip">VS Code</span><span class="chip">Eclipse</span></div>
+    </div>
+    <div class="skill-group">
+      <h4>Personal Skills</h4>
+      <div class="chip-row">
+        <span class="chip">Quick Learner</span><span class="chip">Teamwork</span><span class="chip">Communication</span><span class="chip">Problem Solving</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="sec-head"><span class="sec-num">04</span><h2 class="sec-title">Projects</h2><div class="sec-rule"></div></div>
+
+  <div class="project">
+    <div class="project-index">01</div>
+    <div>
+      <h3>AI-Based Video Surveillance System with Automated Email Alerts</h3>
+      <p>An AI-powered surveillance system that analyzes live camera feeds and uploaded videos to detect suspicious activity in real time, using OpenCV and deep learning-based object detection. A Flask web interface controls monitoring and video uploads, and automated email notifications send captured frames the moment suspicious activity is flagged.</p>
+      <div class="tag-row">
+        <span class="tag">OpenCV</span><span class="tag">Deep Learning</span><span class="tag">Flask</span><span class="tag">Object Detection</span><span class="tag">Email Automation</span>
+      </div>
+      <div class="scan-vis">
+        <div class="scan-line"></div>
+        <span>Live feed · scanning for activity</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="project">
+    <div class="project-index">02</div>
+    <div>
+      <h3>Job Application Portal</h3>
+      <p>A mini five-page job application portal built with HTML and CSS, featuring job listings, an application form, and an applicant details page — designed with a clean, responsive layout so users can browse openings and submit applications easily.</p>
+      <div class="tag-row">
+        <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">Responsive Layout</span><span class="tag">5-page flow</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="education">
+  <div class="sec-head"><span class="sec-num">05</span><h2 class="sec-title">Education</h2><div class="sec-rule"></div></div>
+  <div class="transcript">
+    <div class="transcript-inner">
+      <div class="seal"><div class="num">9.27</div><div class="cap">CGPA</div></div>
+      <div class="transcript-row">
+        <div><span class="t-name">B.Tech, Data Science</span><span class="t-sub">Mohan Babu University — in progress</span></div>
+        <div class="t-score">9.27</div>
+        <div class="t-label">CGPA</div>
+      </div>
+      <div class="transcript-row">
+        <div><span class="t-name">12th Standard</span><span class="t-sub">Narayana Junior College, Tirupati</span></div>
+        <div class="t-score">97.5%</div>
+        <div class="t-label">Aggregate</div>
+      </div>
+      <div class="transcript-row">
+        <div><span class="t-name">10th Standard</span><span class="t-sub">Z.P.H.S, Rangampet</span></div>
+        <div class="t-score">97.5%</div>
+        <div class="t-label">Aggregate</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="certs">
+  <div class="sec-head"><span class="sec-num">06</span><h2 class="sec-title">Certifications &amp; Languages</h2><div class="sec-rule"></div></div>
+  <div class="split-two">
+    <div class="list-card">
+      <h4>Certifications</h4>
+      <div class="item">STEP — English Training Program <span>Certified</span></div>
+    </div>
+    <div class="list-card">
+      <h4>Languages</h4>
+      <div class="item">Telugu <span>Native</span></div>
+      <div class="item">English <span>Fluent</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="sec-head"><span class="sec-num">07</span><h2 class="sec-title">Get in Touch</h2><div class="sec-rule"></div></div>
+  <div class="touch-grid">
+    <a class="touch-row" href="mailto:muttukuruchanikya@gmail.com">
+      <div class="touch-icon">✉</div>
+      <div class="touch-body"><div class="touch-label">Email</div><div class="touch-value">muttukuruchanikya@gmail.com</div></div>
+    </a>
+    <a class="touch-row" href="tel:+919390579844">
+      <div class="touch-icon">📞</div>
+      <div class="touch-body"><div class="touch-label">Mobile</div><div class="touch-value">+91 93905 79844</div></div>
+    </a>
+    <div class="touch-row">
+      <div class="touch-icon">🏠</div>
+      <div class="touch-body"><div class="touch-label">Location</div><div class="touch-value">Tirupati, Andhra Pradesh</div></div>
+    </div>
+    <a class="touch-row" href="https://www.linkedin.com/in/muttukuru-chanikya-15192b363/" target="_blank" rel="noopener">
+      <div class="touch-icon">LI</div>
+      <div class="touch-body"><div class="touch-label">LinkedIn</div><div class="touch-value">muttukuru-chanikya</div></div>
+    </a>
+    <a class="touch-row" href="https://github.com/muttukuruchanikya" target="_blank" rel="noopener">
+      <div class="touch-icon">GH</div>
+      <div class="touch-body"><div class="touch-label">GitHub</div><div class="touch-value">muttukuruchanikya</div></div>
+    </a>
+    <div class="touch-row">
+      <div class="touch-icon">🌐</div>
+      <div class="touch-body"><div class="touch-label">Languages</div><div class="touch-value">Telugu, English</div></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="eyebrow" style="justify-content:center;">Open to opportunities</div>
+  <h2 class="sec-title">Open to entry-level<br>software roles.</h2>
+  <div class="foot-note">Muttukuru Chanikya — Portfolio</div>
+</footer>
+
+</body>
+</html>
